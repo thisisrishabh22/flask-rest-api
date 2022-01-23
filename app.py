@@ -1,7 +1,6 @@
 # Import flask & other utils
 from flask import Flask, jsonify, request
 
-
 # Init flask app
 app = Flask(__name__)
 
