@@ -45,7 +45,4 @@ def invalid_route(e):
 if __name__ == '__main__':
 
     dbname = get_database()
-    if dbname:
-        app.run(debug=True, port=5170)
-    else:
-        print("Error while connecting to Database")
+    app.run(debug=True, port=5170)
