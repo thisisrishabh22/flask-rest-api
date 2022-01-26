@@ -1,8 +1,28 @@
 # Import flask & other utils
 from flask import Flask, jsonify, request
+from pymongo import MongoClient
+from decouple import config
 
 # Init flask app
 app = Flask(__name__)
+
+DB_USER = config('DB_USERNAME')
+DB_PASSWORD = config('DB_PASSWORD')
+DB_NAME = config("DB_NAME")
+DB_NAME_COL = config("DB_NAME_COL")
+
+
+def get_database():
+
+    # Provide the mongodb atlas url to connect python to mongodb using pymongo
+    CONNECTION_STRING = "mongodb+srv://"+DB_USER+":" + \
+        DB_PASSWORD+"@"+DB_NAME+".mongodb.net/"+DB_NAME_COL
+
+    # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClients
+    client = MongoClient(CONNECTION_STRING)
+
+    # Create the database for our example (we will use the same database throughout the tutorial
+    return client
 
 
 # Index route
@@ -24,4 +44,8 @@ def invalid_route(e):
 # driver function
 if __name__ == '__main__':
 
-    app.run(debug=True, port=5170)
+    dbname = get_database()
+    if dbname:
+        app.run(debug=True, port=5170)
+    else:
+        print("Error while connecting to Database")
